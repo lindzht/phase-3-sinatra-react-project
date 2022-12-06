@@ -8,8 +8,11 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/cohorts" do
-    students = Student.all
-    students.to_json
+    newcohort = Cohort.create(
+      region: params[:region],
+      start_date: params[:start_date]
+    )
+    newcohort.to_json
   end
   
   # READ STUDENTS IN COHORT 
@@ -20,8 +23,15 @@ class ApplicationController < Sinatra::Base
     students.to_json
   end
 
+  
+  # # FIND A STUDENT
+  # get "/students/:id" do
+  #   found = Student.find(params[:id])
+  #   found.to_json
+  # end
+
   # CREATE STUDENTS IN COHORT 
-  post "/students/:id" do
+  post "/students" do
     student = Student.create(
       name: params[:name],
       image: params[:image],
