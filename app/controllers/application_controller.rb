@@ -1,12 +1,20 @@
 class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
   
-  # COHORTS 
+  # READ ALL COHORTS 
   get "/cohorts" do
-    cohorts = Cohort.all
+    cohorts = Cohort.all.where('id > ?', 1)
     cohorts.to_json
   end
 
+  # DELETE COHORT
+  delete "/cohorts/:id" do
+    found = Cohort.find(params[:id])
+    found.destroy
+    found.to_json
+  end
+
+  # ADD NEW COHORTS 
   post "/cohorts" do
     newcohort = Cohort.create(
       region: params[:region],
@@ -19,25 +27,20 @@ class ApplicationController < Sinatra::Base
   get "/cohorts/:id/students" do
     cohort = Cohort.find(params[:id])
     students = Student.find_students_by_cohort(cohort) 
-    # students = Student.all.where("cohort_id = ?", cohort)
     students.to_json
   end
 
-  
-  # # FIND A STUDENT
-  # get "/students/:id" do
-  #   found = Student.find(params[:id])
-  #   found.to_json
-  # end
 
   # CREATE STUDENTS IN COHORT 
   post "/students" do
     student = Student.create(
-      name: params[:name],
+      name: params[:name].capitalize,
       image: params[:image],
       bio: params[:bio],
-      sun_sign: params[:sun_sign],
+      sun_sign: params[:sun_sign].capitalize,
       social: params[:social],
+      city_state: params[:city_state],
+      country: params[:country],
       cohort_id: params[:cohort_id]
     )
     student.to_json
@@ -47,7 +50,13 @@ class ApplicationController < Sinatra::Base
   patch "/students/:id" do
     found = Student.find(params[:id])
     found.update(
-      bio: params[:bio]
+      name: params[:name].capitalize,
+      image: params[:image],
+      bio: params[:bio],
+      sun_sign: params[:sun_sign].capitalize,
+      social: params[:social],
+      city_state: params[:city_state],
+      country: params[:country],
     )
     found.to_json
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_06_144932) do
+ActiveRecord::Schema.define(version: 2022_12_07_211413) do
 
   create_table "cohorts", force: :cascade do |t|
     t.string "region"
@@ -24,6 +24,8 @@ ActiveRecord::Schema.define(version: 2022_12_06_144932) do
     t.string "sun_sign"
     t.string "social"
     t.integer "cohort_id"
+    t.string "city_state"
+    t.string "country"
   end
 
 end
