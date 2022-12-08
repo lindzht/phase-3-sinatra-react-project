@@ -3,7 +3,7 @@ class ApplicationController < Sinatra::Base
   
   # READ ALL COHORTS 
   get "/cohorts" do
-    cohorts = Cohort.all.where('id > ?', 1)
+    cohorts = Cohort.active_cohorts
     cohorts.to_json
   end
 
